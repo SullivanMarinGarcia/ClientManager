@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Client;
 import com.example.demo.repository.ClientRepository;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/clients")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
+
 public class ClientController {
     
 

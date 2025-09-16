@@ -12,6 +12,16 @@ async function fetchClients() {
         clients.forEach(client => {
             const li = document.createElement("li");
             li.textContent = `${client.name} - ${client.email} - ${client.phoneNumber} - ${client.address}`;
+            
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", () => {
+                deleteClient(client.id);
+            });
+
+            
+            li.appendChild(deleteButton);
             clientList.appendChild(li);
         });
     } catch (error) {
@@ -36,6 +46,21 @@ async function createClient(Client) {
     }
 }
 
+async function deleteClient(clientId) {
+    try{
+
+        const response = await fetch(`${api}/${clientId}`, {
+            method: "DELETE"
+        });
+        if (response.ok){
+            fetchClients();
+        }
+
+    } catch (error) {
+        console.error("Error deleting client:", error);
+    }
+}
+
 createClientForm.addEventListener("submit", function(event) {
     event.preventDefault();
     const name = document.getElementById("name").value;
@@ -46,5 +71,7 @@ createClientForm.addEventListener("submit", function(event) {
     createClient(newClient);
     this.reset();
 });
+
+
 
 fetchClients();

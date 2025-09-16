@@ -12,6 +12,7 @@ import com.example.demo.repository.ClientRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -38,7 +39,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteClient(@RequestBody Long id) {
+    public void deleteClient(@PathVariable Long id) {
         clientRepository.deleteById(id);
     }
     

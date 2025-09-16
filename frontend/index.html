@@ -16,6 +16,19 @@
         <button type="submit">Add Client</button>
 
     </form>
+
+    <form id="editClientForm" hidden=>
+        <h3>Actualizando la tarea con id: <span id="currentClientId"></span></h3>
+        <input type="text" id="editName" placeholder="Name" required>
+        <input type="email" id="editEmail" placeholder="Email" required>
+        <input type="text" id="editPhoneNumber" placeholder="Phone Number" required>
+        <input type="text" id="editAddress" placeholder="Address" required>
+        <button type="submit" id="editClientButton">Edit Client</button>
+        <button type="button" id="cancelEdit">Cancel</button>
+
+    </form>
+
+
     <ul id="ClientList">
 
     </ul>

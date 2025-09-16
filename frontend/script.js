@@ -1,6 +1,14 @@
 const api = "http://localhost:8080/api/clients";
 
 const createClientForm = document.getElementById("createClientForm");
+const cancelEditButton = document.getElementById("cancelEdit");
+const editClientButton = document.getElementById("editClientButton");
+const currentClientIdSpan = document.getElementById("currentClientId");
+
+const editNameInput = document.getElementById("editName");
+const editEmailInput = document.getElementById("editEmail");
+const editPhoneNumberInput = document.getElementById("editPhoneNumber");
+const editAddressInput = document.getElementById("editAddress");
 
 async function fetchClients() {
     try{
@@ -20,7 +28,16 @@ async function fetchClients() {
                 deleteClient(client.id);
             });
 
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit Client";
+            editButton.addEventListener("click", () => {
+                currentClientIdSpan.textContent = client.id;
+                createClientForm.hidden = true;
+                editClientForm.hidden = false;
+            });
             
+
+            li.appendChild(editButton);
             li.appendChild(deleteButton);
             clientList.appendChild(li);
         });
@@ -61,6 +78,29 @@ async function deleteClient(clientId) {
     }
 }
 
+async function updateClient(clientId, updatedClient) {
+    try {
+
+        const response = await fetch(`${api}/${clientId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedClient)
+        });
+
+        if (response.ok) {
+            
+            editClientForm.hidden = true;
+            createClientForm.hidden = false;
+            fetchClients();
+        }
+    } catch (error) {
+        console.error("Error updating client:", error);
+    }
+
+}
+
 createClientForm.addEventListener("submit", function(event) {
     event.preventDefault();
     const name = document.getElementById("name").value;
@@ -72,6 +112,25 @@ createClientForm.addEventListener("submit", function(event) {
     this.reset();
 });
 
+cancelEditButton.addEventListener("click", function() {
+    editClientForm.hidden = true;
+    createClientForm.hidden = false;
+});
+
+editClientForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    const clientId = currentClientIdSpan.textContent;
+
+    const updatedClient = {
+        name: editNameInput.value,
+        email: editEmailInput.value,
+        phoneNumber: editPhoneNumberInput.value,
+        address: editAddressInput.value
+    };
+    
+    updateClient(clientId, updatedClient);
+
+});
 
 
 fetchClients();
